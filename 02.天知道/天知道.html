@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="css/main2.css" />
 
     <style>
+        .sky-know {
+            position: initial;
+        }
         .tem .iconfont {
             font-size: 50px;
         }
@@ -38,6 +41,18 @@
 
 <body>
     <div class="wrap" id="app">
+        <!-- 使用天知道 -->
+        <sky-know></sky-know>
+        <sky-know></sky-know>
+        <sky-know></sky-know>
+
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+    <!-- 模板 -->
+    <script type="text/html" id="tem">
+    <div>
         <div class="search_form">
             <div class="logo"><img src="img/logo.png" alt="logo" /></div>
             <div class="form_group">
@@ -77,47 +92,20 @@
                     <div class="info_date"><b>{{city}}</b><span>{{item.date}}</span></div>
                 </li>
             </transition-group>
-            <!-- <li>
-          <div class="info_type">
-            <span class="iconfont">&#xe932;</span>
-          </div>
-          <div class="info_temp">高 <b>32℃</b><br />低 32℃</div>
-          <div class="info_date"><b>深圳</b><span>5月19日</span></div>
-        </li> -->
         </ul>
-        <!-- 下面是模板 -->
-        <div class="tem">
-            <h2>模板</h2>
-            <!-- 雨 -->
-            <span class="iconfont">&#xe931;</span>
-            <!-- 晴 -->
-            <span class="iconfont">&#xe933;</span>
-            <!-- 阴 -->
-            <span class="iconfont">&#xe92d;</span>
-            <!-- 雪 -->
-            <span class="iconfont">&#xeb87;</span>
-            <!-- 云 -->
-            <span class="iconfont">&#xeb79;</span>
-            <!-- 雷 -->
-            <span class="iconfont">&#xeb77;</span>
-            <!-- 雹 -->
-            <span class="iconfont">&#xeb76;</span>
-            <!-- 雾 -->
-            <span class="iconfont">&#xeb75;</span>
-        </div>
     </div>
-    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+    </script>
     <script>
-        const vm = new Vue({
-            el: '#app',
-            data: {
-                city: '',
-                isShow: false,
-                weatherList: []
-
+        // 注册一个组件
+        Vue.component('sky-know', {
+            data() {
+                return {
+                    city: '',
+                    isShow: false,
+                    weatherList: []
+                }
             },
+
             methods: {
                 search() {
                     this.isShow = true
@@ -142,6 +130,15 @@
                     this.search()
                 },
             },
+
+            template: "#tem"
+        })
+
+        // 实例化一个vue
+        const vm = new Vue({
+            el: '#app',
+
+
 
         })
 
