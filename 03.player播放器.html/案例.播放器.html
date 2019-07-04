@@ -219,12 +219,14 @@
     .play_bar.playing {
       transform: rotate(0);
     }
+
+    /* video {
+      height: 200px;
+    } */
   </style>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
   <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
-
-
 
   <!-- 滚动 -->
   <script src="./lib/iscroll.js"></script>
@@ -232,62 +234,71 @@
 
 <body>
   <div class="wrap" id="app">
-    <div class="play_wrap" id="player">
-      <div class="search_bar">
-        <img src="images/player_title.png" alt="" />
-        <input type="text" v-model.trim="keyword" @keyup.enter="searchMusic" />
-      </div>
-      <div class="center_con" >
-          <!-- 左侧外层最大的盒子 -->
-        <div class="song_wrapper" ref="muiscScroll">
-            <!-- 内容容器 -->
-          <ul class="song_list">
-              <li v-for='(item ,index) in musicList' :key='item.id' @dblclick='playMusic(item.id)' class="animated">
-                {{item.name}}--{{item.artists[0].name}}
-              </li>  
-          </ul>
-        </div>
-        <div class="player_con">
-          <img src="images/player_bar.png" class="play_bar " :class='{playing:isplaying}' />
-          <!-- 黑胶碟片 -->
-          <img src="images/disc.png" class="disc autoRotate laying" :class='{playing:isplaying}' />
-          <img :src="imgSrc" class="cover autoRotate " :class='{playing:isplaying}' />
-        </div>
-        <!-- 右侧外层最大的盒子 -->
-        <div class="comment_list" ref="commentScroll">
-          <!-- 内容的容器 -->
-          <div>
-            <!-- 循环生成的留言 -->
-            <div v-for='item in msgList'>
-              <dl>
-                <dt>
-                  <img :src="item.user.avatarUrl" alt="" />
-                </dt>
-                <dd class="name">{{item.user.nickname}}</dd>
-                <dd class="detail">
-                  {{item.content}}
-                </dd>
-              </dl>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="audio_con">
-        <audio controls autoplay loop class="myaudio" :src="musicUrl" @play='play' @pause='pause'></audio>
-      </div>
-    </div>
+    <player></player>
+    <player></player>
   </div>
 
 
 </body>
 
 </html>
+<!-- 模板 -->
+<script type="text/html" id="tem">
+  <!-- 跟目录 -->
+  <div>
+      <div class="play_wrap" id="player">
+          <div class="search_bar">
+            <img src="images/player_title.png" alt="" />
+            <input type="text" v-model.trim="keyword" @keyup.enter="searchMusic" />
+          </div>
+          <div class="center_con" >
+              <!-- 左侧外层最大的盒子 -->
+            <div class="song_wrapper" ref="muiscScroll">
+                <!-- 内容容器 -->
+              <ul class="song_list">
+                  <li v-for='(item ,index) in musicList' :key='item.id' @dblclick='playMusic(item.id)'>
+                    {{item.name}}--{{item.artists[0].name}}
+                  </li>  
+              </ul>
+            </div>
+            <div class="player_con">
+              <img src="images/player_bar.png" class="play_bar " :class='{playing:isplaying}' />
+              <!-- 黑胶碟片 -->
+              <img src="images/disc.png" class="disc autoRotate laying" :class='{playing:isplaying}' />
+              <img :src="imgSrc" class="cover autoRotate " :class='{playing:isplaying}' />
+            </div>
+            <!-- 右侧外层最大的盒子 -->
+            <div class="comment_list" ref="commentScroll">
+              <!-- 内容的容器 -->
+              <div>
+                <!-- 循环生成的留言 -->
+                <div v-for='item in msgList'>
+                  <dl>
+                    <dt>
+                      <img :src="item.user.avatarUrl" alt="" />
+                    </dt>
+                    <dd class="name">{{item.user.nickname}}</dd>
+                    <dd class="detail">
+                      {{item.content}}
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="audio_con">
+            <audio controls autoplay loop class="myaudio" :src="musicUrl" @play='play' @pause='pause'></audio>
+          </div>
+        </div>
+  </div>
 
+</script>
 <script>
-  const vm = new Vue({
-    el: '#app',
-    data: {
-      keyword: '',
+  // 注册一个组件
+  Vue.component('player',{
+    data(){
+      return {
+        keyword: '',
       musicList: [],
       musicUrl: '',
       imgSrc: '',
@@ -297,6 +308,7 @@
       muiscScroll: '',
       // 右侧滚动条
       commentScroll: ''
+      }
     },
     methods: {
       // 搜索歌曲
@@ -312,20 +324,22 @@
           })
       },
       // 播放歌曲
-      playMusic(i) {
+      playMusic(i,mvid) {
+        // 获取歌曲地址
         axios.get(`https://autumnfish.cn/song/url?id=${i}`)
           .then((backData) => {
             // console.log(backData);
             this.musicUrl = backData.data.data[0].url
-
           })
 
+        // 获取歌曲封面地址
         axios.get(`https://autumnfish.cn/song/detail?ids=${i}`)
           .then((backData) => {
             // console.log(backData);
             this.imgSrc = backData.data.songs[0].al.picUrl
           })
 
+        // 获取歌曲评论
         axios.get(`https://autumnfish.cn/comment/hot?id=${i}&type=0`)
           .then((backData) => {
             // console.log(backData);
@@ -360,6 +374,14 @@
       // 右侧
       this.commentScroll.refresh()
     },
+
+    // 模板匹配
+    template:'#tem'
+
+  })
+  const vm = new Vue({
+    el: '#app',
+    
   })
 
 
