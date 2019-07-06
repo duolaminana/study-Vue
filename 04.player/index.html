@@ -92,17 +92,17 @@
   <div class="player">
       <div class="left">
         <img class='disc' src="./img/disc.png" alt="">
-        <img class='cover' src="./img/cover.png" alt="">
+        <img class='cover' :src="alpciUrl" alt="">
       </div>
       <div class="right">
-        <div class="title"><img src="./img/tag.png" alt=""><span>放个大招给你看</span> </div>
-        <div class="singer">歌手: <span>尼古拉斯赵四</span></div>
-        <div class="album">所属专辑: <span>我就是我</span></div>
-        <audio class='audio' controls src=""></audio>
+        <div class="title"><img src="./img/tag.png" alt=""><span>{{songName}}</span> </div>
+        <div class="singer">歌手: <span>{{songerName}}</span></div>
+        <div class="album">所属专辑: <span>{{alName}}</span></div>
+        <audio class='audio' controls autoplay :src="musicSrc"></audio>
         <ul class='lyric-container'>
-          <li class='lyric'>难以忘记</li>
-          <li class='lyric'>初次见你</li>
-          <li class='lyric'>那双迷人的小眼睛</li>
+          <li class='lyric' v-for='item in lyric '>{{item}}</li>
+          <!-- <li class='lyric'>初次见你</li>
+          <li class='lyric'>那双迷人的小眼睛</li> -->
         </ul>
       </div>
     </div>
@@ -273,7 +273,60 @@
 
   // 组件2 设置歌曲播放组件
   const player = {
-    template: '#playerTem'
+    template: '#playerTem',
+    data(){
+      return {
+        // 歌曲播放地址
+        musicSrc:'',
+        // 封面图片地址
+        alpciUrl:'',
+        // 歌手名
+        songerName:'',
+        // 专辑名
+        alName:'',
+        // 歌名
+        songName:'',
+        // 歌词
+        lyric:[]
+        
+      }
+    },
+    // 时间生命周期钩子
+    created() {
+      // 发送axios 获取歌曲播放地址
+      axios.get(`https://autumnfish.cn/song/url?id=${this.$route.params.id}`)
+      .then(backData=>{
+        // console.log(backData);
+        this.musicSrc = backData.data.data[0].url 
+      })
+
+      // 发送axios获取封面
+      axios.get(`https://autumnfish.cn/song/detail?ids=${this.$route.params.id}`)
+      .then(backData=>{
+        // console.log(backData);
+        // 封面图片地址
+        this.alpciUrl=backData.data.songs[0].al.picUrl
+        // 歌手名
+        this.songerName=backData.data.songs[0].ar[0].name
+        // 专辑名
+        this.alName=backData.data.songs[0].al.name
+        // 歌名
+        this.songName=backData.data.songs[0].name
+        
+      })
+
+      // 发送axios获取歌词
+      axios.get(`https://autumnfish.cn/lyric?id=${this.$route.params.id}`)
+      .then(backData=>{
+        // console.log(backData);
+        this.lyric = backData.data.lrc.lyric.split('\n')
+        // 循环数组,处理前面的00000
+        for(let i = 0 ; i < this.lyric.length ; i++){
+          this.lyric[i]= this.lyric[i].slice(10)
+        }
+        
+      })
+    },
   }
 
   // 组件3 设置video播放组件
