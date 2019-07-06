@@ -77,7 +77,8 @@
         <div class="name">
           <span class="iconfont icon-play" @click='toPlay(item.id)'></span>
           {{item.name}}
-          <span class="iconfont icon-editmedia"></span>
+          <!-- 判断是否有mvid,有才显示图标 -->
+          <span class="iconfont icon-editmedia" v-if='item.mvid != 0' @click='tomv(item.mvid) '></span>
         </div>
         <!-- 歌手需要使用过滤器 -->
         <div class="singer">{{item.artists | doSinger}}</div>
@@ -116,7 +117,7 @@
         <span class='title'>冲动的惩罚</span>
         <span class='artist'>刀郎</span>
       </div>
-      <video src="" controls></video>
+      <video :src="mvSrc" controls></video>
     </div>
 </script>
 
@@ -229,7 +230,11 @@
     methods:{
       toPlay(id){
         router.push(`/player/${id}`)
+      },
+      tomv(mvid){
+        router.push(`/video/${mvid}`)
       }
+      
     },
     // 生命周期钩子函数
     created() {
@@ -331,7 +336,22 @@
 
   // 组件3 设置video播放组件
   const video = {
-    template: '#videoTem'
+    template: '#videoTem',
+    data(){
+      return {
+        mvSrc:''
+      }
+    },
+    created() {
+      // 发送axios请求获取mv播放地址
+      axios.get(`https://autumnfish.cn/mv/url?id=${this.$route.params.mvid}`)
+      .then(backData=>{
+        // console.log(backData);
+        this.mvSrc=backData.data.data.url
+      })
+      // 获取歌手和歌曲名
+      // router.push()
+    },
   }
 
   // 组件4 设置comment评论组件
@@ -347,7 +367,7 @@
   const routes = [
     { path: '/result/:inputValue', component: result },
     { path: '/player/:id', component: player },
-    { path: '/video', component: video },
+    { path: '/video/:mvid', component: video },
     { path: '/comment', component: comment },
     { path: '/recommend', component: recommend }
   ]
