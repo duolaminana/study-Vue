@@ -18,8 +18,8 @@
   <div id="player">
     <h2 class="title">黑云音乐</h2>
     <div class="search">
-      <input type="text" />
-      <button>
+      <input type="text" v-model.trim='inputValue' @keyup.enter='search' />
+      <button  @click='search'>
         <span class="iconfont icon-search"></span>
       </button>
     </div>
@@ -73,35 +73,15 @@
 <!-- 模板1 设置歌曲结果组件模板 -->
 <script type="text/html" id="resultTem">
   <div class="result-wrapper">
-      <div class="song">
+      <div class="song" v-for='item in songList'>
         <div class="name">
           <span class="iconfont icon-play"></span>
-          美丽的神话
+          {{item.name}}
           <span class="iconfont icon-editmedia"></span>
         </div>
-        <div class="singer">韩红|孙楠</div>
-        <div class="album">《美丽的神话》</div>
-        <div class="time">04:30</div>
-      </div>
-      <div class="song">
-        <div class="name">
-          <span class="iconfont icon-play"></span>
-          美丽的神话
-          <span class="iconfont icon-editmedia"></span>
-        </div>
-        <div class="singer">韩红|孙楠</div>
-        <div class="album">《美丽的神话》</div>
-        <div class="time">04:30</div>
-      </div>
-      <div class="song">
-        <div class="name">
-          <span class="iconfont icon-play"></span>
-          美丽的神话
-          <span class="iconfont icon-editmedia"></span>
-        </div>
-        <div class="singer">韩红|孙楠</div>
-        <div class="album">《美丽的神话》</div>
-        <div class="time">04:30</div>
+        <div class="singer">{{item.artists[0].name}}</div>
+        <div class="album">《{{item.album.name}}》</div>
+        <div class="time">{{item.duration}}</div>
       </div>
     </div>
 </script>
@@ -239,7 +219,22 @@
 <script>
   // 组件1 设置结果组件
   const result = {
-    template: '#resultTem'
+    template: '#resultTem',
+    data(){
+      return {
+        songList:[]
+      }
+    },
+    // 生命周期钩子函数
+    created() {
+  
+      // 发送axios请求
+      axios.get(`https://autumnfish.cn/search?keywords=${this.$route.params.inputValue}`)
+      .then(backData=>{
+        // console.log(backData);
+        this.songList = backData.data.result.songs
+      })
+    },
   }
 
   // 组件2 设置歌曲播放组件
@@ -263,7 +258,7 @@
   }
   // 设置路由规则
   const routes = [
-    { path: '/result', component: result },
+    { path: '/result/:inputValue', component: result },
     { path: '/player', component: player },
     { path: '/video', component: video },
     { path: '/comment', component: comment },
@@ -277,8 +272,14 @@
 
   const vm = new Vue({
     el: '#player',
-    data: {},
-    methods: {},
+    data: {
+      inputValue:''
+    },
+    methods: {
+      search(){
+        router.push(`/result/${this.inputValue}`)
+      }
+    },
     // 挂载路由
     router
 
