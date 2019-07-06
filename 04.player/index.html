@@ -75,13 +75,14 @@
   <div class="result-wrapper">
       <div class="song" v-for='item in songList'>
         <div class="name">
-          <span class="iconfont icon-play"></span>
+          <span class="iconfont icon-play" @click='toPlay(item.id)'></span>
           {{item.name}}
           <span class="iconfont icon-editmedia"></span>
         </div>
-        <div class="singer">{{item.artists[0].name}}</div>
+        <!-- 歌手需要使用过滤器 -->
+        <div class="singer">{{item.artists | doSinger}}</div>
         <div class="album">《{{item.album.name}}》</div>
-        <div class="time">{{item.duration}}</div>
+        <div class="time">{{item.duration | doTime}}</div>
       </div>
     </div>
 </script>
@@ -217,12 +218,17 @@
 
 
 <script>
-  // 组件1 设置结果组件
+  // 组件1 设置搜索结果组件
   const result = {
     template: '#resultTem',
     data(){
       return {
         songList:[]
+      }
+    },
+    methods:{
+      toPlay(id){
+        router.push(`/player/${id}`)
       }
     },
     // 生命周期钩子函数
@@ -235,6 +241,34 @@
         this.songList = backData.data.result.songs
       })
     },
+
+    // 过滤器
+    filters:{
+      // 处理歌手
+      doSinger(singers){
+        // 新建一个空字符串
+        let str = ''
+        // console.log(singers);
+        for(let i = 0; i<singers.length;i++){
+          // 拼接歌手
+          str += singers[i].name
+          // 拼接分隔符/
+          str += '/'
+        }
+        // 移除最后一个
+        str =str.slice(0,-1)
+        return str  
+      },
+
+      // 处理时间
+      doTime(time){
+        let sectime = time /1000
+        let min = Math.floor(sectime / 60)
+        let sec = Math.floor(sectime % 60)
+        sec = sec < 10 ? '0'+sec : sec
+        return min + ':' + sec
+      }
+    }
   }
 
   // 组件2 设置歌曲播放组件
@@ -259,7 +293,7 @@
   // 设置路由规则
   const routes = [
     { path: '/result/:inputValue', component: result },
-    { path: '/player', component: player },
+    { path: '/player/:id', component: player },
     { path: '/video', component: video },
     { path: '/comment', component: comment },
     { path: '/recommend', component: recommend }
