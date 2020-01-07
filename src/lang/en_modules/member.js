@@ -1,0 +1,63 @@
+export default {
+  rights: {
+    interests: 'Rights',
+    description: 'Description',
+    editRights: 'Edit Membership Rights',
+    addRights: 'Add Membership Rights',
+    viewRights: 'Membership Rights Detail'
+  },
+  activity: {
+    activityName: 'ActivityName',
+    start: 'Start Date',
+    end: 'End Date',
+    participantNum: 'Participant',
+    onshelf: 'On Shelf',
+    offshelf: 'Off Shelf',
+    selectDate: 'Select A Date',
+    participant: 'Participant',
+    location: 'Activity Location',
+    remark: 'Remark',
+    detail: 'Activity Detail',
+    description: 'Member Activity Description Area',
+    membership: 'Membership Activities Detail',
+    participantList: 'Activity Participant List',
+    registration: 'Registration Time',
+    editMembership: 'Edit Membership Activity',
+    addMembership: 'Add Membership Activity',
+    memberName: 'Please enter activity name',
+    memberAddress: 'Please fill in the venue',
+    memberRemark: 'Please fill in the activity notes',
+    shelves: 'Confirm Shelves ?',
+    shelvesSave: 'On A Successful',
+    soldOut: 'Confirm To Remove From Shelves ?',
+    soldOutSave: 'The Successful',
+    levelTime: 'Time'
+  },
+  level: {
+    levelName: 'levelName',
+    members: 'Members',
+    sequence: 'Sequence',
+    card: 'Card Template',
+    badge: 'Badge Template',
+    rights: 'Membership Rights',
+    clickUplode: 'Click Uplode',
+    editLevelOrder: 'Edit Membership Rank Order',
+    editLevel: 'Edit Member Level',
+    addLevel: 'Add Member Level',
+    detailLevel: 'Member Level Detail',
+    PleaseLevelName: 'Please Enter The Level Name'
+  },
+  category: {
+    categoryCode: 'CategoryCode',
+    categoryName: 'CategoryName',
+    parentCategory: 'ParentCategory',
+    editCategory: 'Edit Member Category',
+    addCategory: 'Add Member Category',
+    categoryDetail: 'Member Category Detail',
+    editCategoryOrder: 'Edit Membership Classification Order',
+    classifyCode: 'Please Enter The Classification Code',
+    classifyName: 'Please Enter Category Name',
+    selctparent: 'Please Select The Superior Category',
+    subordinate: 'The Customer Has A Child And Cannot Be Deleted'
+  }
+}

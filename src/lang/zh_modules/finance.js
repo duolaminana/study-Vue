@@ -1,0 +1,53 @@
+export default {
+  financeProduct: {
+    code: '产品编码',
+    name: '金融产品',
+    add: '新增金融产品',
+    edit: '编辑金融产品',
+    detail: '金融产品详情',
+    basic: '基本信息',
+    channelList: '金融渠道列表',
+    addFrom: '从渠道列表新增'
+  },
+  financeChannel: {
+    code: '渠道编码',
+    name: '渠道名称',
+    add: '新增金融渠道',
+    edit: '编辑金融渠道',
+    detail: '金融渠道详情',
+    contact: '渠道联系人',
+    address: '渠道联系地址',
+    phone: '渠道联系电话',
+    annexe: '所需附件'
+  },
+  financeService: {
+    No: 'FO号',
+    amount: '贷款金额',
+    product: '申请金融产品',
+    channel: '金融机构名称',
+    productForm: '金融产品',
+    order: '订单',
+    channelForm: '渠道机构',
+    add: '申请金融服务',
+    edit: '编辑金融服务',
+    detail: '金融服务详情',
+    applier: '申请人',
+    appliedTime: '申请时间',
+    repayment: '还款记录',
+    payment: '待付款金额',
+    paymentMethod: '利息计算方法',
+    currency: '币种',
+    rate: '利率',
+    start: '开始日期',
+    end: '结束日期',
+    file: '申请文件',
+    fileType: '附件',
+    addFile: '添加',
+    accept: '接受',
+    paymentDate: '还款日期',
+    principal: '本金',
+    interest: '利息',
+    penalty: '罚息',
+    balance: '余额'
+  }
+}

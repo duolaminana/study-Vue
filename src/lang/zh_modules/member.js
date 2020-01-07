@@ -1,0 +1,63 @@
+export default {
+  rights: {
+    interests: '权益',
+    description: '描述',
+    editRights: '编辑会员权益',
+    addRights: '新增会员权益',
+    viewRights: '会员权益详情'
+  },
+  activity: {
+    activityName: '活动名称',
+    start: '开始日期',
+    end: '结束日期',
+    participantNum: '参与人数',
+    onshelf: '上架',
+    offshelf: '下架',
+    selectDate: '选择日期',
+    participant: '参与',
+    location: '活动地点',
+    remark: '备注',
+    detail: '活动详情',
+    description: '会员活动描述区域',
+    membership: '会员活动详情',
+    participantList: '参与者列表',
+    registration: '登记时间',
+    editMembership: '编辑会员活动',
+    addMembership: '新增会员活动',
+    memberName: '请输入活动名称',
+    memberAddress: '请填写活动地点',
+    memberRemark: '请填写活动备注',
+    shelves: '是否确认上架 ?',
+    shelvesSave: '上架成功',
+    soldOut: '是否确认下架 ?',
+    soldOutSave: '下架成功',
+    levelTime: '活动时间'
+  },
+  level: {
+    levelName: '等级名称',
+    members: '会员人数',
+    sequence: '排序',
+    card: '名片模板',
+    badge: '徽章模板',
+    rights: '会员权益',
+    clickUplode: '点击上传',
+    editLevelOrder: '编辑会员等级顺序',
+    editLevel: '编辑会员等级',
+    addLevel: '新增会员等级',
+    detailLevel: '会员等级详情',
+    PleaseLevelName: '请输入等级名称'
+  },
+  category: {
+    categoryCode: '分类编码',
+    categoryName: '分类名称',
+    parentCategory: '上级分类',
+    editCategory: '编辑会员分类',
+    addCategory: '新增会员分类',
+    categoryDetail: '会员分类详情',
+    editCategoryOrder: '编辑会员分类顺序',
+    classifyCode: '请输入分类编码',
+    classifyName: '请输入分类名称',
+    selctparent: '请选择上级分类',
+    subordinate: '该客户存在子级,无法进行删除'
+  }
+}
